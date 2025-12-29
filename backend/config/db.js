@@ -1,29 +1,52 @@
 const mongoose = require('mongoose');
 const { Pool } = require('pg');
+require('dotenv').config();
+
+let sandboxPool = null;
 
 const connectMongoDB = async () => {
     try {
-        const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/ciphersql', {
-            serverSelectionTimeoutMS: 5000
+        const conn = await mongoose.connect(process.env.MONGO_URI, {
+            serverSelectionTimeoutMS: 5000,
+            retryWrites: true,
+            w: 'majority'
         });
-        console.log(`MongoDB connected: ${conn.connection.host}`);
+        console.log(`MongoDB: ${conn.connection.host}`);
+        return conn;
     } catch (err) {
-        console.error('Error: MongoDB not connected. Please make sure MongoDB is running locally or set MONGO_URI in .env to your Atlas connection string.');
-        console.error(`Reason: ${err.message}`);
-        process.exit(1);
+        console.error('MongoDB:', err.message);
+        return null;
     }
 };
 
-const sandboxPool = new Pool({
-    connectionString: process.env.SANDBOX_DATABASE_URL,
-});
+const createPostgresPool = () => {
+    if (!process.env.SANDBOX_DATABASE_URL) {
+        console.error('SANDBOX_DATABASE_URL missing');
+        return null;
+    }
 
-sandboxPool.on('error', (err) => {
-    console.error('Unexpected error on idle sandbox client', err);
-    process.exit(-1);
-});
+    try {
+        const pool = new Pool({
+            connectionString: process.env.SANDBOX_DATABASE_URL,
+        });
 
-module.exports = {
-    connectMongoDB,
-    sandboxPool
+        pool.query('SELECT 1', (err) => {
+            err 
+                ? console.error('PostgreSQL test failed:', err.message)
+                : console.log('PostgreSQL connected');
+        });
+
+        pool.on('error', (err) => {
+            console.error('PostgreSQL pool error:', err.message);
+        });
+
+        return pool;
+    } catch (error) {
+        console.error('PostgreSQL pool creation failed:', error.message);
+        return null;
+    }
 };
+
+sandboxPool = createPostgresPool();
+
+module.exports = { connectMongoDB, sandboxPool };
