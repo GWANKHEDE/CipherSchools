@@ -1,0 +1,7 @@
+// Shared Error Codes structure (Mirrored from Backend)
+export const ERROR_CODES = {
+    INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
+    NOT_FOUND: 'NOT_FOUND',
+    VALIDATION_ERROR: 'VALIDATION_ERROR',
+    DATABASE_ERROR: 'DATABASE_ERROR'
+};

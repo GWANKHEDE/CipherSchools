@@ -1,0 +1,66 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.assignment-card {
+    background-color: $white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    @include card-shadow;
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+    position: relative;
+
+    &__difficulty {
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: $primary-color;
+        margin-bottom: 0.5rem;
+    }
+
+    &__title {
+        font-size: 1.25rem;
+        color: $text-color;
+        margin: 0 0 0.75rem 0;
+        line-height: 1.4;
+    }
+
+    &__description {
+        color: #666;
+        margin: 0 0 1rem 0;
+        flex: 1;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        line-height: 1.5;
+    }
+
+    .btn {
+        margin-top: auto;
+        align-self: flex-start;
+        width: 100%;
+    }
+}
+
+// Table
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: $white;
+
+    th,
+    td {
+        padding: 0.75rem;
+        border: 1px solid $border-color;
+        text-align: left;
+    }
+
+    th {
+        background-color: #eee;
+    }
+}
