@@ -179,3 +179,8 @@ CipherSQLStudio/
     │   ├── styles/     # SCSS styling
     │   └── App.jsx     # Main React component
 ```
+
+
+https://github.com/user-attachments/assets/e05caf70-614f-4689-9bba-72af9e28ca8f
+
+
