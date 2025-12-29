@@ -48,6 +48,8 @@ CipherSQLStudio is an interactive SQL learning platform where students can pract
 - **Robust Error Handling**: Friendly error messages and toast notifications.
 
 ## 🔄 Data Flow
+![DataFlow Digram](https://github.com/user-attachments/assets/34414b97-b4ad-4869-bd07-973b5c1ceafa)
+
 
 ### Application Flow
 1. **Select Assignment** → Fetch from MongoDB
